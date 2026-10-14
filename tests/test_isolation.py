@@ -198,6 +198,8 @@ def test_rpc_response_error_requires_kind() -> None:
 
 
 def test_run_probe_vectors_unsandboxed_baseline(tmp_path: Path) -> None:
+    if sys.platform == "win32":
+        pytest.skip("ctypes probe vectors use POSIX libc symbols not available on Windows msvcrt")
     arena_root = tmp_path / "arena"
     duel_scratch = arena_root / "scratch" / "duel"
     child_driver.setup_probe_fixture(arena_root, duel_scratch)
